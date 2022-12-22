@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Firebase.Client</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Firebase.Client</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Firebase.Client - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+        import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging.js";
+        /*import { onBackgroundMessage } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-messaging-sw.js";*/
+
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyB7f9amBHcn916Gsj6Lfrelm3Kgv9Has0s",
+            authDomain: "wewe-7711d.firebaseapp.com",
+            projectId: "wewe-7711d",
+            storageBucket: "wewe-7711d.appspot.com",
+            messagingSenderId: "339343575839",
+            appId: "1:339343575839:web:20ae62f35146a74145be2a",
+            measurementId: "G-TC7X4PK0P6"
+        };
+
+        const firebaseKey = "BN_O0i5EZ-J6CohZyGOC99a_-1y8pRSAQxPkJ91qnmptCf0CGrnib_GV0kV9KFXq8_GcIOdkenqjHJVVObiBQ_k";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+
+        getToken(messaging, { vapidKey: firebaseKey }).then((currentToken) => {
+            if (currentToken) {
+                // Send the token to your server and update the UI if necessary
+                console.log(currentToken);
+            } else {
+                // Show permission request UI
+                console.log('No registration token available. Request permission to generate one.');
+            }
+        }).catch((err) => {
+            console.log('An error occurred while retrieving token. ', err);
+        });
+
+        onMessage(messaging, function (payload) {
+            console.log(payload);
+        });
+
+
+        //onBackgroundMessage(messaging, (payload) => {
+        //    console.log('Received background message ', payload);
+        //    // Customize notification here
+        //    const notificationTitle = 'Background Message Title';
+        //    const notificationOptions = {
+        //        body: 'Background Message body.',
+        //        icon: '/firebase-logo.png'
+        //    };
+        //    self.registration.showNotification(notificationTitle,
+        //        notificationOptions);
+        //});
+
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
