@@ -1,18 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using RabbitMQ.test;
 
+DeadLetterExchange deadLetterExchange = new DeadLetterExchange();
+deadLetterExchange.DeadLetterDeclare();
 
 do
 {
-    //HelloWorld helloWorld = new HelloWorld();
-    //helloWorld.Send();
-    //helloWorld.Receive();
-    //Thread.Sleep(1000);
+    deadLetterExchange.Send();
+    deadLetterExchange.Receive();
 
-    PublishSubscribe publishSubscribe = new PublishSubscribe();
-    publishSubscribe.Send();
-    publishSubscribe.Receive1();
-    publishSubscribe.Receive2();
-    Thread.Sleep(3000);
-}
-while (true);
+    Thread.Sleep(5000/2+157);
+} while (true);
